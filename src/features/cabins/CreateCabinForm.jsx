@@ -9,45 +9,47 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCabin } from "../../services/apiCabins";
 import toast from "react-hot-toast";
+import FormRow from "../../ui/FormRow";
 
-const FormRow = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 24rem 1fr 1.2fr;
-  gap: 2.4rem;
+// const FormRow2 = styled.div`
+//   display: grid;
+//   align-items: center;
+//   grid-template-columns: 24rem 1fr 1.2fr;
+//   gap: 2.4rem;
 
-  padding: 1.2rem 0;
+//   padding: 1.2rem 0;
 
-  &:first-child {
-    padding-top: 0;
-  }
+//   &:first-child {
+//     padding-top: 0;
+//   }
 
-  &:last-child {
-    padding-bottom: 0;
-  }
+//   &:last-child {
+//     padding-bottom: 0;
+//   }
 
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
+//   &:not(:last-child) {
+//     border-bottom: 1px solid var(--color-grey-100);
+//   }
 
-  &:has(button) {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1.2rem;
-  }
-`;
+//   &:has(button) {
+//     display: flex;
+//     justify-content: flex-end;
+//     gap: 1.2rem;
+//   }
+// `;
 
-const Label = styled.label`
-  font-weight: 500;
-`;
+// const Label = styled.label`
+//   font-weight: 500;
+// `;
 
-const Error = styled.span`
-  font-size: 1.4rem;
-  color: var(--color-red-700);
-`;
+// const Error = styled.span`
+//   font-size: 1.4rem;
+//   color: var(--color-red-700);
+// `;
 
 function CreateCabinForm() {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, getValues, formState } = useForm();
+  const { errors } = formState;
   const queryClient = useQueryClient();
   const { mutate, isPending: isCreating } = useMutation({
     // mutationFn: (newCabin) => createCabin(newCabin),
@@ -66,46 +68,106 @@ function CreateCabinForm() {
     // console.log(data);
     mutate(data);
   }
+  // function onError(errors) {
+  //   console.log(errors);
+  // }
   return (
+    // <Form onSubmit={handleSubmit(onSubmit, onError)}>
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormRow>
+      {/* <FormRow2>
         <Label htmlFor="name">Cabin name</Label>
-        <Input type="text" id="name" {...register("name")} />
+        <Input
+          type="text"
+          id="name"
+          {...register("name", {
+            required: "This feild is required",
+          })}
+        />
+        {errors?.name?.message && <Error>{errors.name.message}</Error>}
+      </FormRow2> */}
+
+      <FormRow label="Cabin Name" error={errors?.name?.message}>
+        <Input
+          type="text"
+          id="name"
+          disabled={isCreating}
+          {...register("name", {
+            required: "This feild is required",
+          })}
+        />
+      </FormRow>
+      <FormRow label="Maximum capacity" error={errors?.maxCapacity?.message}>
+        {/* <Label htmlFor="maxCapacity">Maximum capacity</Label> */}
+        <Input
+          type="number"
+          id="maxCapacity"
+          disabled={isCreating}
+          {...register("maxCapacity", {
+            required: "this feild is required",
+            min: {
+              value: 1,
+              message: "Capacity should be at least 1",
+            },
+          })}
+        />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="maxCapacity">Maximum capacity</Label>
-        <Input type="number" id="maxCapacity" {...register("maxCapacity")} />
+      <FormRow label="Regular price" error={errors?.regularPrice?.message}>
+        {/* <Label htmlFor="regularPrice">Regular price</Label> */}
+        <Input
+          type="number"
+          id="regularPrice"
+          disabled={isCreating}
+          {...register("regularPrice", {
+            required: "this feild is required",
+          })}
+        />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="regularPrice">Regular price</Label>
-        <Input type="number" id="regularPrice" {...register("regularPrice")} />
-      </FormRow>
-
-      <FormRow>
-        <Label htmlFor="discount">Discount</Label>
+      <FormRow label="Discount" error={errors?.discount?.message}>
+        {/* <Label htmlFor="discount">Discount</Label> */}
         <Input
           type="number"
           id="discount"
           defaultValue={0}
-          {...register("discount")}
+          disabled={isCreating}
+          {...register("discount", {
+            required: "this feild is required",
+            validate: (value) =>
+              //   {
+              //   const regularPrice = parseFloat(getValues().regularPrice);
+              //   const discount = parseFloat(value);
+              //   return (
+              //     discount <= regularPrice ||
+              //     "Discount should be less than regular price"
+              //   );
+              // },
+
+              parseFloat(value) <= parseFloat(getValues().regularPrice) ||
+              "Discount Should be less than regular price",
+          })}
         />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="description">Description for website</Label>
+      <FormRow
+        label="Description for website"
+        error={errors?.description?.message}
+      >
+        {/* <Label htmlFor="description">Description for website</Label> */}
         <Textarea
           type="number"
           id="description"
           defaultValue=""
-          {...register("description")}
+          disabled={isCreating}
+          {...register("description", {
+            required: "this feild is required",
+          })}
         />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="image">Cabin photo</Label>
-        <FileInput id="image" accept="image/*" />
+      <FormRow label="Cabin photo" error={errors?.image?.message}>
+        {/* <Label htmlFor="image">Cabin photo</Label> */}
+        <FileInput id="image" disabled={isCreating} accept="image/*" />
       </FormRow>
 
       <FormRow>

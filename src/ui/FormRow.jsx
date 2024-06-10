@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-
+import PropTypes from "prop-types";
 const StyledFormRow = styled.div`
   display: grid;
   align-items: center;
@@ -46,9 +46,21 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-function FormRow({ label, error, children, orientation }) {
+// function FormRow({ label, error, children, orientation }) {
+//   return (
+//     <StyledFormRow orientation={orientation}>
+//       {label && <Label htmlFor={children.props.id}>{label}</Label>}
+//       {children}
+//       {error && <Error>{error}</Error>}
+//     </StyledFormRow>
+//   );
+// }
+
+// export default FormRow;
+
+function FormRow({ label, error, children }) {
   return (
-    <StyledFormRow orientation={orientation}>
+    <StyledFormRow>
       {label && <Label htmlFor={children.props.id}>{label}</Label>}
       {children}
       {error && <Error>{error}</Error>}
@@ -56,4 +68,9 @@ function FormRow({ label, error, children, orientation }) {
   );
 }
 
+FormRow.propTypes = {
+  label: PropTypes.string,
+  error: PropTypes.string,
+  children: PropTypes.node.isRequired,
+};
 export default FormRow;
