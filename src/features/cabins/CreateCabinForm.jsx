@@ -1,4 +1,4 @@
-import styled from "styled-components";
+// import styled from "styled-components";
 
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
@@ -66,7 +66,7 @@ function CreateCabinForm() {
 
   function onSubmit(data) {
     // console.log(data);
-    mutate(data);
+    mutate({ ...data, image: data.image[0] });
   }
   // function onError(errors) {
   //   console.log(errors);
@@ -167,7 +167,14 @@ function CreateCabinForm() {
 
       <FormRow label="Cabin photo" error={errors?.image?.message}>
         {/* <Label htmlFor="image">Cabin photo</Label> */}
-        <FileInput id="image" disabled={isCreating} accept="image/*" />
+        <FileInput
+          id="image"
+          disabled={isCreating}
+          accept="image/*"
+          {...register("image", {
+            required: "this feild is required",
+          })}
+        />
       </FormRow>
 
       <FormRow>
