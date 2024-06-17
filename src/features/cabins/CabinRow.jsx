@@ -75,6 +75,10 @@ function CabinRow({ cabin }) {
   //   onError: (err) => toast.error(err.message),
   // });
 
+  function handleShowForm() {
+    setShowForm((show) => !show);
+  }
+
   function handleDuplicate() {
     createCabin({
       name: `Copy of ${name}`,
@@ -112,7 +116,9 @@ function CabinRow({ cabin }) {
           </button>
         </div>
       </TableRow>
-      {showForm && <CreateCabinForm cabinToEdit={cabin} />}
+      {showForm && (
+        <CreateCabinForm cabinToEdit={cabin} onShowForm={handleShowForm} />
+      )}
     </>
   );
 }
