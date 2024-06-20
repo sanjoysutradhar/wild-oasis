@@ -1,15 +1,9 @@
-import {
-  cloneElement,
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { cloneElement, createContext, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
 import { useOutsideClick } from "../hooks/useOutsideClick";
+import PropTypes from "prop-types";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -110,4 +104,14 @@ function Window({ children, name }) {
 Modal.Open = Open;
 Modal.Window = Window;
 
+Modal.propTypes = {
+  children: PropTypes.node,
+};
+Open.propTypes = {
+  children: PropTypes.node,
+};
+Window.propTypes = {
+  children: PropTypes.node,
+  name: PropTypes.string,
+};
 export default Modal;

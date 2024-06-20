@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import styled from "styled-components";
-
+import PropTypes from "prop-types";
 const StyledTable = styled.div`
   border: 1px solid var(--color-grey-200);
 
@@ -29,13 +29,13 @@ const StyledHeader = styled(CommonRow)`
   color: var(--color-grey-600);
 `;
 
-const StyledRow = styled(CommonRow)`
-  padding: 1.2rem 2.4rem;
+// const StyledRow = styled(CommonRow)`
+//   padding: 1.2rem 2.4rem;
 
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-`;
+//   &:not(:last-child) {
+//     border-bottom: 1px solid var(--color-grey-100);
+//   }
+// `;
 
 const StyledBody = styled.section`
   margin: 0.4rem 0;
@@ -96,4 +96,18 @@ Table.Row = Row;
 Table.Body = Body;
 Table.Footer = Footer;
 
+Table.propTypes = {
+  children: PropTypes.node,
+  columns: PropTypes.string,
+};
+Header.propTypes = {
+  children: PropTypes.node,
+};
+Row.propTypes = {
+  children: PropTypes.node,
+};
+Body.propTypes = {
+  data: PropTypes.array.isRequired,
+  render: PropTypes.func.isRequired,
+};
 export default Table;
