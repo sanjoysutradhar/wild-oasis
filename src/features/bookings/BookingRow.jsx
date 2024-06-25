@@ -47,8 +47,12 @@ function BookingRow({
     status,
     guests: { fullName: guestName, email },
     cabins: { name: cabinName },
+    // guests = {}, // Provide default empty object
+    // cabins = {}, // Provide default empty object
   },
 }) {
+  //  const { fullName: guestName = "Unknown Guest", email = "No Email" } = guests;
+  // const { name: cabinName = "Unknown Cabin" } = cabins;
   const statusToTagName = {
     unconfirmed: "blue",
     "checked-in": "green",
