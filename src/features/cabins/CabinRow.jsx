@@ -82,6 +82,7 @@ function CabinRow({ cabin }) {
   // function handleShowForm() {
   //   setShowForm((show) => !show);
   // }
+  console.log(isCreating);
 
   function handleDuplicate() {
     createCabin({

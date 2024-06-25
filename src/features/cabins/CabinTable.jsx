@@ -33,12 +33,13 @@ import { useSearchParams } from "react-router-dom";
 // `;
 
 function CabinTable() {
-  const { isLoading, cabins, error } = useCabins();
-  console.log(error);
+  const { isLoading, cabins } = useCabins();
+  // console.log(error);
   const [searchParams] = useSearchParams();
 
   if (isLoading) return <Spinner />;
 
+  //filters
   const filterValue = searchParams.get("discount") || "all";
   let filterCabins;
   if (filterValue === "all") filterCabins = cabins;
@@ -46,6 +47,26 @@ function CabinTable() {
     filterCabins = cabins.filter((cabin) => cabin.discount === 0);
   if (filterValue === "with-discount")
     filterCabins = cabins.filter((cabin) => cabin.discount > 0);
+
+  // //sort
+  // const sortBy = searchParams.get("sortBy") || "startDate-asc";
+  // const [field, direction] = sortBy.split("-");
+  // const modifier = direction === "asc" ? 1 : -1;
+
+  // const sortedCabins = filterCabins.sort(
+  //   (a, b) => a[field] - b[field] * modifier
+  // );
+
+  const sortBy = searchParams.get("sortBy") || "startDate-asc";
+  const [field, direction] = sortBy.split("-");
+  const modifier = direction === "asc" ? 1 : -1;
+
+  const sortedCabins = filterCabins.sort((a, b) => {
+    if (a[field] < b[field]) return -1 * modifier;
+    if (a[field] > b[field]) return 1 * modifier;
+    return 0;
+  });
+
   return (
     <Menus>
       <Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
@@ -59,7 +80,8 @@ function CabinTable() {
         </Table.Header>
 
         <Table.Body
-          data={filterCabins}
+          // data={filterCabins}
+          data={sortedCabins}
           render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
         />
         {/* {cabins.map((cabin) => (
