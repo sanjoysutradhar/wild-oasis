@@ -139,14 +139,14 @@ Menus.propTypes = {
   children: PropTypes.node,
 };
 Toggle.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.string,
 };
 List.propTypes = {
   children: PropTypes.node,
-  id: PropTypes.number,
+  id: PropTypes.string,
 };
 Button.propTypes = {
-  icon: PropTypes.string,
+  icon: PropTypes.object,
   children: PropTypes.node,
   onClick: PropTypes.func,
 };

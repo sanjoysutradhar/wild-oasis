@@ -21,9 +21,10 @@ export async function getBookings({ filter, sortBy, page }) {
     });
 
   //pagination
+
   if (page) {
     const from = (page - 1) * PAGE_SIZE;
-    const to = from + PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
     query = query.range(from, to);
   }
 
@@ -36,6 +37,60 @@ export async function getBookings({ filter, sortBy, page }) {
 
   return { data, count };
 }
+
+// export async function getBookings({ filter, sortBy, page }) {
+//   let query = supabase
+//     .from("bookings")
+//     .select(
+//       "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, status, cabins(name), guests(fullName, email)",
+//       { count: "exact" }
+//     );
+
+//   // Apply filter if it exists
+//   if (filter) {
+//     query = query[filter.method || "eq"](filter.field, filter.value);
+//   }
+
+//   // Apply sorting if it exists
+//   if (sortBy) {
+//     query = query.order(sortBy.field, {
+//       ascending: sortBy.direction === "asc",
+//     });
+//   }
+
+//   // Fetch total count to validate page parameter
+//   const { count, error: countError } = await query;
+
+//   if (countError) {
+//     console.error(countError);
+//     throw new Error("Could not fetch the count of bookings");
+//   }
+
+//   // Validate page number
+//   if (!page || page <= 0) {
+//     page = 1;
+//   }
+//   const totalPages = Math.ceil(count / PAGE_SIZE);
+//   if (page > totalPages) {
+//     page = totalPages;
+//   }
+
+//   // Apply pagination
+//   const from = (page - 1) * PAGE_SIZE;
+//   const to = from + PAGE_SIZE - 1;
+//   query = query.range(from, to);
+
+//   // Fetch data
+//   const { data, error } = await query;
+
+//   if (error) {
+//     console.error(error);
+//     throw new Error("Bookings could not be loaded");
+//   }
+
+//   return { data, count };
+// }
+
 export async function getBooking(id) {
   const { data, error } = await supabase
     .from("bookings")

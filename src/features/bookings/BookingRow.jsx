@@ -1,12 +1,15 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { format, isToday } from "date-fns";
+import { formatCurrency } from "../../utils/helpers";
+import { formatDistanceFromNow } from "../../utils/helpers";
+import { HiArrowDownOnSquare, HiArrowUpOnSquare, HiEye } from "react-icons/hi2";
 
 import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
-
-import { formatCurrency } from "../../utils/helpers";
-import { formatDistanceFromNow } from "../../utils/helpers";
+import Menus from "../../ui/Menus";
+import { useNavigate } from "react-router-dom";
+import { useCheckout } from "../check-in-out/useCheckout";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -38,11 +41,11 @@ const Amount = styled.div`
 function BookingRow({
   booking: {
     id: bookingId,
-    created_at,
+    // created_at,
     startDate,
     endDate,
     numNights,
-    numGuests,
+    // numGuests,
     totalPrice,
     status,
     guests: { fullName: guestName, email },
@@ -51,6 +54,9 @@ function BookingRow({
     // cabins = {}, // Provide default empty object
   },
 }) {
+  const { checkout, isCheckingOut } = useCheckout();
+  const navigate = useNavigate();
+  // const Ids = 119;
   //  const { fullName: guestName = "Unknown Guest", email = "No Email" } = guests;
   // const { name: cabinName = "Unknown Cabin" } = cabins;
   const statusToTagName = {
@@ -59,9 +65,15 @@ function BookingRow({
     "checked-out": "silver",
   };
 
+  // const handleDetailsClick = () => {
+  //   console.log(11);
+  //   navigate(`bookings/${bookingId}`);
+  // };
   return (
     <Table.Row>
-      <Cabin>{cabinName}</Cabin>
+      <Cabin>
+        {cabinName} {bookingId}
+      </Cabin>
 
       <Stacked>
         <span>{guestName}</span>
@@ -84,6 +96,36 @@ function BookingRow({
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
       <Amount>{formatCurrency(totalPrice)}</Amount>
+      <Menus.Menu>
+        <Menus.Toggle id={bookingId.toString()} />
+        <Menus.List id={bookingId.toString()}>
+          <Menus.Button
+            icon={<HiEye />}
+            onClick={() => navigate(`/bookings/${bookingId}`)}
+          >
+            See Details
+          </Menus.Button>
+
+          {status === "unconfirmed" && (
+            <Menus.Button
+              icon={<HiArrowDownOnSquare />}
+              onClick={() => navigate(`/checkin/${bookingId}`)}
+            >
+              Check In
+            </Menus.Button>
+          )}
+
+          {status === "checked-in" && (
+            <Menus.Button
+              icon={<HiArrowUpOnSquare />}
+              onClick={() => checkout(bookingId)}
+              disabled={isCheckingOut}
+            >
+              Check Out
+            </Menus.Button>
+          )}
+        </Menus.List>
+      </Menus.Menu>
     </Table.Row>
   );
 }

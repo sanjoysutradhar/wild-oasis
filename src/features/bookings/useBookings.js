@@ -52,5 +52,12 @@ export function useBookings() {
       queryKey: ["bookings", filter, sortBy, page - 1],
       queryFn: () => getBookings({ filter, sortBy, page: page - 1 }),
     });
+
+  // Update search params if the current page is invalid
+  // const totalPages = Math.ceil(count / PAGE_SIZE);
+  // if (page > totalPages) {
+  //   setSearchParams({ page: totalPages });
+  // }
+
   return { isLoading, bookings, count, error, page };
 }

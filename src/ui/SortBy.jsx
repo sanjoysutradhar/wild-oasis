@@ -12,6 +12,7 @@ function SortBy({ options }) {
     <Select
       options={options}
       value={sortBy}
+      // value={options.find((option) => option.value === sortBy)}
       onChange={handleChange}
       type={"white"}
     />
@@ -19,10 +20,12 @@ function SortBy({ options }) {
 }
 
 SortBy.propTypes = {
-  options: PropTypes.arrayOf({
-    value: PropTypes.string,
-    label: PropTypes.string,
-  }),
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 
 export default SortBy;
