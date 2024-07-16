@@ -1,3 +1,4 @@
+import { HiOutlineAdjustments } from "react-icons/hi";
 import {
   HiOutlineHome,
   HiOutlineCalendarDays,
@@ -75,8 +76,14 @@ function MainNav() {
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="account">
+          <StyledNavLink to="users">
             <HiOutlineUsers />
+            Users
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="account">
+            <HiOutlineAdjustments />
             Account
           </StyledNavLink>
         </li>
