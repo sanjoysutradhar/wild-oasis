@@ -20,7 +20,7 @@ function Login() {
       <Logo />
       <Heading as="h4">Log in to your account</Heading>
       <LoginForm />
-      <CabinTable />
+      {/* <CabinTable /> */}
     </LoginLayout>
   );
 }
