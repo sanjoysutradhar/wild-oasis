@@ -145,7 +145,7 @@ export async function getStaysTodayActivity() {
     .from("bookings")
     .select("*, guests(fullName, nationality, countryFlag)")
     .or(
-      `and(status.eq.unconfirmed,startDate.eq.${getToday()}),and(status.eq.checked-in,endDate.eq.${getToday()})`
+      `and(status.eq.unconfirmed, startDate.eq.${getToday()}), and(status.eq.checked-in,endDate.eq.${getToday()})`
     )
     .order("created_at");
 
@@ -167,7 +167,6 @@ export async function updateBooking(id, obj) {
     .eq("id", id)
     .select()
     .single();
-
   if (error) {
     console.error(error);
     throw new Error("Booking could not be updated");
