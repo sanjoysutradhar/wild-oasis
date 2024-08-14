@@ -23,7 +23,7 @@ const StyledSalesChart = styled(DashboardBox)`
   }
 `;
 
-const fakeData = [
+/*const fakeData = [
   { label: "Jan 09", totalSales: 480, extrasSales: 20 },
   { label: "Jan 10", totalSales: 580, extrasSales: 100 },
   { label: "Jan 11", totalSales: 550, extrasSales: 150 },
@@ -53,7 +53,7 @@ const fakeData = [
   { label: "Feb 04", totalSales: 1500, extrasSales: 500 },
   { label: "Feb 05", totalSales: 1400, extrasSales: 600 },
   { label: "Feb 06", totalSales: 1450, extrasSales: 400 },
-];
+];*/
 
 // const isDarkMode = true;
 // const colors = isDarkMode
